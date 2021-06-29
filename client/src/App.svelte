@@ -142,7 +142,7 @@
 				>
 			</div>
 			<div class="divider" />
-			<a id="personal" href="https://donnybertucci.com"
+			<a id="personal" target="_blank" href="https://donnybertucci.com"
 				>Made by Donny Bertucci</a
 			>
 		</div>
@@ -179,7 +179,7 @@
 			</div>
 		</div>
 	{:else}
-		<h1>Loading MNIST Digits test and Models...</h1>
+		<center>Loading...</center>
 	{/if}
 </main>
 
