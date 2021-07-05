@@ -1,8 +1,4 @@
 <script lang="ts">
-	/**
-	 * @todo add svelte tweened motion so when points are updated we interpolate through to add animation
-	 */
-	// import SVGOutline from "../shared/SVGOutline.svelte";
 	import {
 		createAxes,
 		createScales,

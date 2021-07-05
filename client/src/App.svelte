@@ -10,6 +10,7 @@
 		unWrapData,
 		reformatForScatter,
 		computeSingleDecode,
+		decode,
 	} from "./app";
 	import * as tf from "@tensorflow/tfjs";
 
@@ -19,6 +20,8 @@
 		y = 40;
 	let encoder: tf.LayersModel, decoder: tf.LayersModel;
 	let digitData: number[];
+	let maxData: number;
+
 	let formattedData: IScatterFormat[];
 	let square = 600;
 
@@ -30,7 +33,10 @@
 		encoder = await tf.loadLayersModel("datafiles/encoder/model.json");
 		decoder = await tf.loadLayersModel("datafiles/decoder/model.json");
 
-		digitData = decodeGivenCoord(decoder, [x, y]);
+		const { decoded, max } = decodeGivenCoord(decoder, [x, y]);
+		digitData = decoded;
+		maxData = max;
+
 		const { regular } = encode(encoder, data2DTensor);
 		formattedData = reformatForScatter(labels, regular);
 
@@ -102,12 +108,18 @@
 						strokeWidth={0.5}
 						position={(xPoint, yPoint) => {
 							(x = xPoint), (y = yPoint);
-							digitData = computeSingleDecode(decoder, [+x, +y]);
+
+							const { decoded, max } = decodeGivenCoord(decoder, [
+								+x,
+								+y,
+							]);
+							digitData = decoded;
+							maxData = max;
 						}}
 					/>
 				</div>
 				<div style="margin-left: 100px;">
-					<MnistDigit data={digitData} {square} />
+					<MnistDigit data={digitData} {square} maxVal={maxData} />
 					<p>
 						latent space coordinate: ({x.toFixed(3)}, {y.toFixed(
 							3
