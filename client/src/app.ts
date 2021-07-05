@@ -1,4 +1,4 @@
-import { LayersModel, Tensor, tensor, tidy } from "@tensorflow/tfjs";
+import { LayersModel, Tensor, tensor, tidy, max } from "@tensorflow/tfjs";
 /**
  * A Getter method to get the json file
  *
@@ -53,7 +53,9 @@ export const encode = (encoder: LayersModel, inputTensor: Tensor) => {
  */
 export const decode = (decoder: LayersModel, encodedTensor: Tensor) => {
 	const decoded = decoder.predict(encodedTensor);
-	return to2D(decoded);
+	//@ts-ignore
+	const maxNum = max(decoded).dataSync()[0];
+	return { decoded: to2D(decoded), max: maxNum };
 };
 
 /**
@@ -68,8 +70,8 @@ export const decodeGivenCoord = (
 	coord: [number, number]
 ) => {
 	const input = tensor([coord]);
-	const decoded = decode(decoder, input);
-	return decoded[0];
+	const { decoded, max } = decode(decoder, input);
+	return { decoded: decoded[0], max };
 };
 
 /**
