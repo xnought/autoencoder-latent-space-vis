@@ -146,7 +146,7 @@
 		#title {
 			margin-left: 20px;
 			font-size: 20px;
-			color: white;
+			color: black;
 		}
 	}
 	#button-container {
